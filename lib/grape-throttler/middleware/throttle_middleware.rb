@@ -29,7 +29,7 @@ module GrapeThrottler
           current = redis.get(rate_key).to_i
 
           if !current.nil? && current >= limit
-            endpoint.error!('too many requests, please try again later', 429)
+            endpoint.error!('Too Many Requests', 429)
           else
             redis.multi do
               redis.set(rate_key, COUNTER_START, { nx: true, ex: period.to_i })
