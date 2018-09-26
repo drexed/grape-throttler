@@ -15,8 +15,6 @@ Lint/AssignmentInCondition:
   Enabled: false
 Lint/RescueException:
   Enabled: false
-Lint/ScriptPermission:
-  Enabled: false
 Metrics/AbcSize:
   Enabled: false
 Metrics/CyclomaticComplexity:

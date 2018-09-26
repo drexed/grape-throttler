@@ -2,6 +2,8 @@
 detectors:
   Attribute:
     enabled: false
+  FeatureEnvy:
+    enabled: false
   IrresponsibleModule:
     enabled: false
   MissingSafeMethod:
