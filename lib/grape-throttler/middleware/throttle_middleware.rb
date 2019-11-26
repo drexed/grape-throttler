@@ -6,6 +6,8 @@ module GrapeThrottler
 
       COUNTER_START ||= 0
 
+      # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
+      # rubocop:disable Metrics/PerceivedComplexity, Lint/AssignmentInCondition
       def before
         endpoint = env['api.endpoint']
         logger = options[:logger] || Logger.new(STDOUT)
@@ -32,7 +34,7 @@ module GrapeThrottler
             endpoint.error!('Too Many Requests', 429)
           else
             redis.multi do
-              redis.set(rate_key, COUNTER_START, { nx: true, ex: period.to_i })
+              redis.set(rate_key, COUNTER_START, nx: true, ex: period.to_i)
               redis.incr(rate_key)
             end
           end
@@ -40,6 +42,8 @@ module GrapeThrottler
           logger.warn(e.message)
         end
       end
+      # rubocop:enable Metrics/PerceivedComplexity, Lint/AssignmentInCondition
+      # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 
       private
 
@@ -49,6 +53,7 @@ module GrapeThrottler
         raise ArgumentError, 'Please set a period and limit (see documentation)'
       end
 
+      # rubocop:disable Lint/AssignmentInCondition
       def find_limit_and_period(throttle_options)
         if limit = throttle_options[:hourly]
           period = 1.hour
@@ -62,6 +67,7 @@ module GrapeThrottler
 
         [limit, period]
       end
+      # rubocop:enable Lint/AssignmentInCondition
 
       def find_user_value(options)
         user_key = options[:user_key]

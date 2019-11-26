@@ -5,42 +5,27 @@ require 'spec_helper'
 RSpec.describe Grape do
   subject do
     Class.new(Grape::API) do
-      use GrapeThrottler::Middleware::ThrottleMiddleware,
-          cache: Redis.new
+      use GrapeThrottler::Middleware::ThrottleMiddleware, cache: Redis.new
 
       throttle daily: 3
-      get('/throttle') do
-        'step on it'
-      end
+      get('/throttle') { 'step on it' }
 
-      get('/no-throttle') do
-        'step on it'
-      end
+      get('/no-throttle') { 'step on it' }
 
       throttle period: 10.minutes, limit: 3
-      get('/throttle-custom-period') do
-        'step on it'
-      end
+      get('/throttle-custom-period') { 'step on it' }
 
       throttle
-      get('/wrong-configuration') do
-        'step on it'
-      end
+      get('/wrong-configuration') { 'step on it' }
 
       throttle period: 2.seconds, limit: 3
-      get('/really-short-throttle') do
-        'step on it'
-      end
+      get('/really-short-throttle') { 'step on it' }
 
-      throttle period: 1.minute, limit: Proc.new { 1 }
-      get('/throttle-proc-limit') do
-        'step on it'
-      end
+      throttle period: 1.minute, limit: proc { 1 }
+      get('/throttle-proc-limit') { 'step on it' }
 
-      throttle period: 2.seconds, limit: Proc.new { -1 }
-      get('/throttle-proc-limit-disables-throtling') do
-        'step on it'
-      end
+      throttle period: 2.seconds, limit: proc { -1 }
+      get('/throttle-proc-limit-disables-throtling') { 'step on it' }
     end
   end
 
@@ -50,34 +35,26 @@ RSpec.describe Grape do
 
   describe '#throttle' do
     it 'is not throttled within the rate limit' do
-      3.times do
-        get '/throttle'
-      end
+      3.times { get '/throttle' }
 
       expect(last_response.status).to eq(200)
     end
 
     it 'is throttled beyond the rate limit' do
-      4.times do
-        get '/throttle'
-      end
+      4.times { get '/throttle' }
 
       expect(last_response.status).to eq(429)
     end
 
     describe 'with custom period' do
       it 'is not throttled within the rate limit' do
-        3.times do
-          get '/throttle-custom-period'
-        end
+        3.times { get '/throttle-custom-period' }
 
         expect(last_response.status).to eq(200)
       end
 
       it 'is throttled beyond the rate limit' do
-        4.times do
-          get '/throttle-custom-period'
-        end
+        4.times { get '/throttle-custom-period' }
 
         expect(last_response.status).to eq(429)
       end
@@ -91,9 +68,7 @@ RSpec.describe Grape do
       end
 
       it 'is throttled beyond the rate limit' do
-        2.times do
-          get '/throttle-proc-limit'
-        end
+        2.times { get '/throttle-proc-limit' }
 
         expect(last_response.status).to eq(429)
       end
@@ -134,17 +109,17 @@ RSpec.describe Grape do
     end
   end
 
+  # rubocop:disable RSpec/AnyInstance
   describe 'Redis down' do
-    before do
+    it 'works when redis is down' do
       expect_any_instance_of(Redis).to receive(:ping) { raise NoMethodError }
 
       allow($stdout).to receive(:write)
-    end
 
-    it 'should work when redis is down' do
       get '/throttle'
 
       expect(last_response.status).to eq(200)
     end
   end
+  # rubocop:enable RSpec/AnyInstance
 end
