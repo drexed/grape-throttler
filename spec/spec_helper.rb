@@ -1,14 +1,25 @@
 # frozen_string_literal: true
 
-%w[bundler fakeredis grape-throttler rack/test rspec/expectations rubygems].each do |file_name|
-  require file_name
+require 'bundler/setup'
+require 'fakeredis'
+require 'grape-throttler'
+
+spec_path = Pathname.new(File.expand_path('../spec', File.dirname(__FILE__)))
+
+%w[config].each do |dir|
+  Dir.each_child(spec_path.join("support/#{dir}")) do |f|
+    load(spec_path.join("support/#{dir}/#{f}"))
+  end
 end
 
-Bundler.setup :default, :test
-
 RSpec.configure do |config|
-  config.mock_with :rspec
+  # Enable flags like --only-failures and --next-failure
+  config.example_status_persistence_file_path = '.rspec_status'
 
-  config.include Rack::Test::Methods
-  config.include RSpec::Matchers
+  # Disable RSpec exposing methods globally on `Module` and `main`
+  config.disable_monkey_patching!
+
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
 end

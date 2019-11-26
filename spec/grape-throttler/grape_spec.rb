@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Grape do
+RSpec.describe Grape do
   subject do
     Class.new(Grape::API) do
       use GrapeThrottler::Middleware::ThrottleMiddleware,
@@ -136,7 +136,7 @@ describe Grape do
 
   describe 'Redis down' do
     before do
-      expect_any_instance_of(Redis).to receive(:ping) { raise Exception }
+      expect_any_instance_of(Redis).to receive(:ping) { raise NoMethodError }
 
       allow($stdout).to receive(:write)
     end

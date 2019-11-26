@@ -36,7 +36,7 @@ module GrapeThrottler
               redis.incr(rate_key)
             end
           end
-        rescue Exception => e
+        rescue StandardError => e
           logger.warn(e.message)
         end
       end
@@ -71,8 +71,8 @@ module GrapeThrottler
       end
 
       def generate_rate_key(endpoint, user_value)
-        epoint = endpoint.routes.first
-        "#{epoint.request_method}:#{epoint.path}:#{user_value}"
+        endpoint_route = endpoint.routes.first
+        "#{endpoint_route.request_method}:#{endpoint_route.path}:#{user_value}"
       end
 
     end
