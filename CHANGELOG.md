@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2019-11-25
 ### Added
 - Added CHANGELOG.md
+- Added ruby 2.7 support
 ### Changed
 - Refactor code to clean up lint errors
 
