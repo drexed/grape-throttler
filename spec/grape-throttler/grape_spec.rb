@@ -112,7 +112,7 @@ RSpec.describe Grape do
   # rubocop:disable RSpec/AnyInstance
   describe 'Redis down' do
     it 'works when redis is down' do
-      expect_any_instance_of(Redis).to receive(:ping) { raise NoMethodError }
+      allow_any_instance_of(Redis).to receive(:ping) { raise NoMethodError }
 
       allow($stdout).to receive(:write)
 

@@ -53,7 +53,7 @@ The `user_key` parameter is a function that can be used to determine a custom id
 
 **Logging**
 
-The gem will log errors to STDOUT by default. If you prefer a different logger you can use the `logger` option to pass in your own logger.
+The gem will log errors to $stdout by default. If you prefer a different logger you can use the `logger` option to pass in your own logger.
 
 ```ruby
 use GrapeThrottler::Middleware::ThrottleMiddleware, cache: Redis.new, logger: Logger.new('my_custom_log.log')

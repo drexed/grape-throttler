@@ -10,7 +10,7 @@ module GrapeThrottler
       # rubocop:disable Metrics/PerceivedComplexity, Lint/AssignmentInCondition
       def before
         endpoint = env['api.endpoint']
-        logger = options[:logger] || Logger.new(STDOUT)
+        logger = options[:logger] || Logger.new($stdout)
 
         return unless throttle_options = endpoint.route_setting(:throttle)
 
