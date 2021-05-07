@@ -4,7 +4,7 @@ module GrapeThrottler
   module Middleware
     class ThrottleMiddleware < Grape::Middleware::Base
 
-      COUNTER_START ||= 0
+      COUNTER_START = 0
 
       # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
       # rubocop:disable Metrics/PerceivedComplexity, Lint/AssignmentInCondition
