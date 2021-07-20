@@ -56,11 +56,11 @@ module GrapeThrottler
       # rubocop:disable Lint/AssignmentInCondition
       def find_limit_and_period(throttle_options)
         if limit = throttle_options[:hourly]
-          period = 1.hour
+          period = 3_600
         elsif limit = throttle_options[:daily]
-          period = 1.day
+          period = 86_400
         elsif limit = throttle_options[:monthly]
-          period = 1.month
+          period = 2_629_746
         elsif period = throttle_options[:period]
           limit = throttle_options[:limit]
         end

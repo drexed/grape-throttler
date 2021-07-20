@@ -12,19 +12,19 @@ RSpec.describe Grape do
 
       get('/no-throttle') { 'step on it' }
 
-      throttle period: 10.minutes, limit: 3
+      throttle period: 600, limit: 3
       get('/throttle-custom-period') { 'step on it' }
 
       throttle
       get('/wrong-configuration') { 'step on it' }
 
-      throttle period: 2.seconds, limit: 3
+      throttle period: 2, limit: 3
       get('/really-short-throttle') { 'step on it' }
 
-      throttle period: 1.minute, limit: proc { 1 }
+      throttle period: 60, limit: proc { 1 }
       get('/throttle-proc-limit') { 'step on it' }
 
-      throttle period: 2.seconds, limit: proc { -1 }
+      throttle period: 2, limit: proc { -1 }
       get('/throttle-proc-limit-disables-throtling') { 'step on it' }
     end
   end
