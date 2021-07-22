@@ -2,14 +2,13 @@
 
 require 'bundler/setup'
 require 'fakeredis'
+
 require 'grape-throttler'
 
 spec_path = Pathname.new(File.expand_path('../spec', File.dirname(__FILE__)))
 
-%w[config].each do |dir|
-  Dir.each_child(spec_path.join("support/#{dir}")) do |f|
-    load(spec_path.join("support/#{dir}/#{f}"))
-  end
+Dir.each_child(spec_path.join('support/config')) do |f|
+  load(spec_path.join("support/config/#{f}"))
 end
 
 RSpec.configure do |config|

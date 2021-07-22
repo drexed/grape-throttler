@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grape-throttler (1.2.0)
+    grape-throttler (1.2.1)
       grape (>= 0.16.0)
 
 GEM

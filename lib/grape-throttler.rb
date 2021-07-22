@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-%w[grape logger].each do |file_name|
-  require file_name
-end
+require 'grape' unless defined?(Grape)
+require 'logger' unless defined?(Logger)
 
-%w[version extensions/throttle_extension].each do |file_name|
-  require "grape-throttler/#{file_name}"
-end
+require 'grape-throttler/version'
+
+require 'grape-throttler/extensions/throttle_extension'
 
 module GrapeThrottler
   module Middleware
